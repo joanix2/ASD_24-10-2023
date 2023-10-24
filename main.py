@@ -65,6 +65,99 @@ class File:
     def is_empty(self):
         # Propriété en lecture seule qui renvoie True si la file est vide, sinon False.
         return len(self._liste) == 0
+    
+class DoubleFile:
+    def __init__(self):
+        self._liste = []
+
+    def push_front(self, element):
+        # Ajoute un élément à l'avant de la double file.
+        self._liste.insert(0, element)
+
+    def push_rear(self, element):
+        # Ajoute un élément à l'arrière de la double file.
+        self._liste.append(element)
+
+    def pop_front(self):
+        # Retire et renvoie l'élément à l'avant de la double file.
+        if not self.is_empty:
+            return self._liste.pop(0)
+        else:
+            return None
+
+    def pop_rear(self):
+        # Retire et renvoie l'élément à l'arrière de la double file.
+        if not self.is_empty:
+            return self._liste.pop()
+        else:
+            return None
+
+    def front(self):
+        # Renvoie l'élément à l'avant de la double file sans le retirer.
+        if not self.is_empty:
+            return self._liste[0]
+        else:
+            return None
+
+    def rear(self):
+        # Renvoie l'élément à l'arrière de la double file sans le retirer.
+        if not self.is_empty:
+            return self._liste[-1]
+        else:
+            return None
+
+    @property
+    def size(self):
+        # Propriété en lecture seule qui renvoie la taille actuelle de la double file.
+        return len(self._liste)
+
+    @property
+    def is_empty(self):
+        # Propriété en lecture seule qui renvoie True si la double file est vide, sinon False.
+        return len(self._liste) == 0
+
+class Maillon:
+    def __init__(self, valeur):
+        self.valeur = valeur
+        self.suivant = None
+
+class ListeCh:
+    def __init__(self):
+        self.tete = None  # La tête de la liste chaînée, initialement vide
+
+    def is_empty(self):
+        return self.tete is None
+
+    def add(self, valeur):
+        nouveau_maillon = Maillon(valeur)
+        if self.est_vide():
+            self.tete = nouveau_maillon
+        else:
+            actuel = self.tete
+            while actuel.suivant:
+                actuel = actuel.suivant
+            actuel.suivant = nouveau_maillon
+
+    def delete(self, valeur):
+        if self.est_vide():
+            return
+        if self.tete.valeur == valeur:
+            self.tete = self.tete.suivant
+            return
+        actuel = self.tete
+        while actuel.suivant:
+            if actuel.suivant.valeur == valeur:
+                actuel.suivant = actuel.suivant.suivant
+                return
+            actuel = actuel.suivant
+
+    def show(self):
+        elements = []
+        actuel = self.tete
+        while actuel:
+            elements.append(actuel.valeur)
+            actuel = actuel.suivant
+        print(" -> ".join(map(str, elements)))
 
 def test_pile():
     # Pile
@@ -102,10 +195,22 @@ def test_file():
     is_empty = f.is_empty
     print("La file est vide:", is_empty)  # Devrait afficher False
 
+def test_listeCh():
+    # Exemple d'utilisation :
+    liste = ListeCh()
+    liste.ajouter(1)
+    liste.ajouter(2)
+    liste.ajouter(3)
+    liste.afficher()  # Cela affichera "1 -> 2 -> 3"
+    liste.supprimer(2)
+    liste.afficher()  # Cela affichera "1 -> 3"
+
 def main():
     test_pile()
     print()
     test_file()
+    print()
+    test_listeCh()
 
 if __name__ == "__main__":
     main()  
