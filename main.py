@@ -117,9 +117,9 @@ class DoubleFile:
         return len(self._liste) == 0
 
 class Maillon:
-    def __init__(self, valeur):
+    def __init__(self, valeur=None, suivant=None):
         self.valeur = valeur
-        self.suivant = None
+        self.suivant = suivant
 
 class ListeCh:
     def __init__(self):
